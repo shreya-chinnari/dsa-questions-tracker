@@ -32,7 +32,7 @@ const CalendarLogger = ({ dateLogs, setDateLogs }: CalendarLoggerProps) => {
   const monthsToDisplay = useMemo(() => {
     const months = [];
     for (let i = 7; i <= 11; i++) { // August (7) to December (11)
-      months.push(new Date(2026, i, 1));
+      months.push(new Date(2025, i, 1));
     }
     return months;
   }, []);
