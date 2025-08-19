@@ -58,23 +58,23 @@ export default function Home() {
 
 
   return (
-    <main className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-8">
+    <main className="min-h-screen bg-background text-foreground p-4">
       <div className="max-w-7xl mx-auto">
-        <header className="text-center mb-10">
-          <h1 className="text-5xl font-black tracking-tight font-headline">3-4 DSA questions daily</h1>
-          <p className="text-muted-foreground mt-2 text-lg">imageine how good you'll be by the end of the year</p>
+        <header className="text-center mb-6">
+          <h1 className="text-4xl font-black tracking-tight font-headline">3-4 DSA questions daily</h1>
+          <p className="text-muted-foreground mt-2 text-md">imageine how good you'll be by the end of the year</p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
             <Card className="shadow-lg border-none bg-coral text-coral-foreground rounded-xl overflow-hidden">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">📅 Days Logged</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="text-6xl font-extrabold">
+                    <div className="text-5xl font-extrabold">
                         <AnimatedCounter value={days} />
                     </div>
-                    <p className="text-xs text-coral-foreground/70 mt-3">Total days with logged questions</p>
+                    <p className="text-xs text-coral-foreground/70 mt-1">Total days with logged questions</p>
                 </CardContent>
             </Card>
 
@@ -83,10 +83,10 @@ export default function Home() {
                     <CardTitle className="text-sm font-medium">📘 DSA Solved</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="text-6xl font-extrabold">
+                    <div className="text-5xl font-extrabold">
                         <AnimatedCounter value={dsa} />
                     </div>
-                     <p className="text-xs text-teal-foreground/70 mt-3">Total questions solved from calendar</p>
+                     <p className="text-xs text-teal-foreground/70 mt-1">Total questions solved from calendar</p>
                 </CardContent>
             </Card>
 
@@ -95,21 +95,21 @@ export default function Home() {
                     <CardTitle className="text-sm font-medium">⏳ Days Left in 2025</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="text-6xl font-extrabold">
+                    <div className="text-5xl font-extrabold">
                         <AnimatedCounter value={daysLeft} />
                     </div>
-                    <p className="text-xs text-yellow-vibrant-foreground/70 mt-3">Until December 31, 2025</p>
+                    <p className="text-xs text-yellow-vibrant-foreground/70 mt-1">Until December 31, 2025</p>
                 </CardContent>
             </Card>
         </div>
 
         <CalendarLogger dateLogs={dateLogs} setDateLogs={setDateLogs} />
         
-        <div className="mt-12 bg-card p-6 rounded-xl shadow-md">
-            <h2 className="text-2xl font-bold text-center mb-4">2025 Year Progress</h2>
+        <div className="mt-8 bg-card p-4 rounded-xl shadow-md">
+            <h2 className="text-xl font-bold text-center mb-3">2025 Year Progress</h2>
             <div className="max-w-3xl mx-auto">
-                <Progress value={yearProgress} className="h-4" />
-                <p className="text-center text-muted-foreground mt-2 font-medium">{yearProgress.toFixed(1)}% complete</p>
+                <Progress value={yearProgress} className="h-3" />
+                <p className="text-center text-muted-foreground mt-2 text-sm font-medium">{yearProgress.toFixed(1)}% complete</p>
             </div>
         </div>
       </div>

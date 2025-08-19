@@ -40,7 +40,7 @@ const CalendarLogger = ({ dateLogs, setDateLogs }: CalendarLoggerProps) => {
   const renderMonth = (monthDate: Date) => {
     const year = monthDate.getFullYear();
     const month = monthDate.getMonth();
-    const monthName = monthDate.toLocaleString('default', { month: 'long' });
+    const monthName = monthDate.toLocaleString('default', { month: 'short' });
 
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     const firstDayOfWeek = new Date(year, month, 1).getDay();
@@ -49,12 +49,12 @@ const CalendarLogger = ({ dateLogs, setDateLogs }: CalendarLoggerProps) => {
     const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 
     return (
-      <div key={`${year}-${month}`} className="bg-card p-4 rounded-lg shadow-md">
-        <h3 className="text-lg font-bold text-center mb-3">{monthName} {year}</h3>
-        <div className="grid grid-cols-7 gap-1 text-center text-xs text-muted-foreground">
-          <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+      <div key={`${year}-${month}`} className="bg-card p-3 rounded-lg shadow-md">
+        <h3 className="text-md font-bold text-center mb-2">{monthName} {year}</h3>
+        <div className="grid grid-cols-7 gap-1 text-center text-xs text-muted-foreground mb-1">
+          <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
         </div>
-        <div className="grid grid-cols-7 gap-1 mt-1">
+        <div className="grid grid-cols-7 gap-1">
           {blanks.map((_, i) => <div key={`blank-${i}`}></div>)}
           {days.map(day => {
             const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
@@ -64,8 +64,8 @@ const CalendarLogger = ({ dateLogs, setDateLogs }: CalendarLoggerProps) => {
                 key={dateStr}
                 onClick={() => handleDateClick(dateStr)}
                 className={cn(
-                  "w-full aspect-square rounded-md flex items-center justify-center text-xs sm:text-sm font-bold transition-colors",
-                  "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
+                  "w-full aspect-square rounded-md flex items-center justify-center text-xs font-bold transition-colors",
+                  "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1",
                   count === 0 && 'bg-secondary hover:bg-secondary/80 text-muted-foreground',
                   {
                     'bg-green-200 text-green-800': count === 1,
@@ -90,9 +90,9 @@ const CalendarLogger = ({ dateLogs, setDateLogs }: CalendarLoggerProps) => {
   };
 
   return (
-    <div className="mb-8">
-      <h2 className="text-2xl font-bold text-center mb-4">Daily Streak Logger</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="mb-6">
+      <h2 className="text-xl font-bold text-center mb-3">Daily Streak Logger</h2>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
         {monthsToDisplay.map(month => renderMonth(month))}
       </div>
     </div>
