@@ -3,15 +3,14 @@
 import { useEffect, useState, useRef } from 'react';
 
 const AnimatedCounter = ({ value }: { value: number }) => {
-  const [displayValue, setDisplayValue] = useState(0);
-  const valueRef = useRef(0);
+  const [displayValue, setDisplayValue] = useState(value);
+  const valueRef = useRef(value);
   const animationFrameRef = useRef<number>();
 
   useEffect(() => {
     const startValue = valueRef.current;
     const endValue = value;
     
-    // If the value hasn't changed, do nothing.
     if (startValue === endValue) {
         setDisplayValue(endValue);
         return;
@@ -42,7 +41,6 @@ const AnimatedCounter = ({ value }: { value: number }) => {
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
-      valueRef.current = value;
     };
   }, [value]);
 
