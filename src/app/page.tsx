@@ -62,7 +62,7 @@ export default function Home() {
       <div className="max-w-7xl mx-auto">
         <header className="text-center mb-6">
           <h1 className="text-4xl font-black tracking-tight font-headline">3-4 DSA questions daily</h1>
-          <p className="text-muted-foreground mt-2 text-md">imageine how good you'll be by the end of the year</p>
+          <p className="text-muted-foreground mt-2 text-md">imagine how good you'll be by the end of the year</p>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
