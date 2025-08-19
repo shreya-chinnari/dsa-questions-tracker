@@ -14,7 +14,7 @@ const CalendarLogger = () => {
   const handleDateClick = (date: string) => {
     setDateLogs(prevLogs => {
       const currentCount = prevLogs[date] || 0;
-      const newCount = (currentCount % 9) + 1;
+      const newCount = (currentCount + 1) % 10;
       return { ...prevLogs, [date]: newCount };
     });
   };
