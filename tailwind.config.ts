@@ -65,6 +65,18 @@ export default {
           border: 'hsl(var(--sidebar-border))',
           ring: 'hsl(var(--sidebar-ring))',
         },
+        coral: {
+          DEFAULT: '#FF6B6B',
+          foreground: '#ffffff',
+        },
+        teal: {
+          DEFAULT: '#4ECDC4',
+          foreground: '#ffffff',
+        },
+        'yellow-vibrant': {
+          DEFAULT: '#FFD93D',
+          foreground: '#373210',
+        },
       },
       borderRadius: {
         lg: 'var(--radius)',

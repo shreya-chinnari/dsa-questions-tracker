@@ -1,3 +1,166 @@
+"use client";
+
+import { useState, useEffect } from 'react';
+import usePersistentState from '@/hooks/usePersistentState';
+import AnimatedCounter from '@/components/AnimatedCounter';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Progress } from '@/components/ui/progress';
+import { useToast } from "@/hooks/use-toast";
+import { Plus, Edit } from 'lucide-react';
+
 export default function Home() {
-  return <></>;
+  const { toast } = useToast();
+  const [days, setDays] = usePersistentState('daysCounter', 0);
+  const [dsa, setDsa] = usePersistentState('dsaCounter', 0);
+
+  const [daysLeft, setDaysLeft] = useState(0);
+  const [yearProgress, setYearProgress] = useState(0);
+  
+  const [manualDays, setManualDays] = useState<number | string>(days);
+  const [manualDsa, setManualDsa] = useState<number | string>(dsa);
+
+  useEffect(() => {
+    const calculateTimeValues = () => {
+      const today = new Date();
+      const endOfYear = new Date('2025-12-31T23:59:59');
+      const startOfYear = new Date('2025-01-01T00:00:00');
+
+      if (today > endOfYear) {
+        setDaysLeft(0);
+        setYearProgress(100);
+        return;
+      }
+      if (today < startOfYear) {
+        const totalDaysInYear = (endOfYear.getTime() - startOfYear.getTime()) / (1000 * 60 * 60 * 24);
+        setDaysLeft(Math.ceil(totalDaysInYear));
+        setYearProgress(0);
+        return;
+      }
+
+      const diffTime = endOfYear.getTime() - today.getTime();
+      const diffDays = Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24)));
+      setDaysLeft(diffDays);
+
+      const totalTime = endOfYear.getTime() - startOfYear.getTime();
+      const elapsedTime = today.getTime() - startOfYear.getTime();
+      const progress = Math.max(0, Math.min(100, (elapsedTime / totalTime) * 100));
+      setYearProgress(progress);
+    };
+
+    calculateTimeValues();
+    const interval = setInterval(calculateTimeValues, 60000); 
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    setManualDays(days);
+  }, [days]);
+
+  useEffect(() => {
+    setManualDsa(dsa);
+  }, [dsa]);
+
+  const handleIncrementDays = () => {
+    setDays(prev => prev + 1);
+    toast({ title: "✅ Updated!" });
+  };
+
+  const handleIncrementDsa = () => {
+    setDsa(prev => prev + 1);
+    toast({ title: "✅ Updated!" });
+  };
+
+  const handleSetManualDays = () => {
+    const value = parseInt(String(manualDays), 10);
+    if (!isNaN(value) && value >= 0) {
+      setDays(value);
+      toast({ title: "✅ Days counter set." });
+    } else {
+      toast({ variant: "destructive", title: "Invalid input for days." });
+      setManualDays(days);
+    }
+  };
+
+  const handleSetManualDsa = () => {
+    const value = parseInt(String(manualDsa), 10);
+    if (!isNaN(value) && value >= 0) {
+      setDsa(value);
+      toast({ title: "✅ DSA counter set." });
+    } else {
+      toast({ variant: "destructive", title: "Invalid input for DSA." });
+      setManualDsa(dsa);
+    }
+  };
+
+  return (
+    <main className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-8">
+      <div className="max-w-7xl mx-auto">
+        <header className="text-center mb-10">
+          <h1 className="text-5xl font-black tracking-tight font-headline">Progress Pulse</h1>
+          <p className="text-muted-foreground mt-2 text-lg">Track your progress, one day at a time.</p>
+        </header>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
+            <Card className="shadow-lg border-none bg-coral text-coral-foreground rounded-xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">📅 Days Counter</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="text-7xl font-extrabold">
+                        <AnimatedCounter value={days} />
+                    </div>
+                    <div className="flex gap-2 mt-4">
+                        <Button onClick={handleIncrementDays} className="bg-white/20 hover:bg-white/30 text-white flex-1 font-semibold"><Plus className="mr-2 h-4 w-4"/> Inc Day</Button>
+                    </div>
+                    <div className="flex gap-2 mt-2" onKeyDown={(e) => e.key === 'Enter' && handleSetManualDays()}>
+                        <Input type="number" value={manualDays} onChange={(e) => setManualDays(e.target.value)} className="bg-white/20 border-0 placeholder:text-white/60 text-white font-medium" placeholder="Set value..."/>
+                        <Button onClick={handleSetManualDays} size="icon" className="bg-white/20 hover:bg-white/30 text-white"><Edit className="h-4 w-4"/></Button>
+                    </div>
+                </CardContent>
+            </Card>
+
+            <Card className="shadow-lg border-none bg-teal text-teal-foreground rounded-xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">📘 DSA Questions Solved</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="text-7xl font-extrabold">
+                        <AnimatedCounter value={dsa} />
+                    </div>
+                     <div className="flex gap-2 mt-4">
+                        <Button onClick={handleIncrementDsa} className="bg-white/20 hover:bg-white/30 text-white flex-1 font-semibold"><Plus className="mr-2 h-4 w-4"/> Inc DSA</Button>
+                    </div>
+                    <div className="flex gap-2 mt-2" onKeyDown={(e) => e.key === 'Enter' && handleSetManualDsa()}>
+                        <Input type="number" value={manualDsa} onChange={(e) => setManualDsa(e.target.value)} className="bg-white/20 border-0 placeholder:text-white/60 text-white font-medium" placeholder="Set value..."/>
+                        <Button onClick={handleSetManualDsa} size="icon" className="bg-white/20 hover:bg-white/30 text-white"><Edit className="h-4 w-4"/></Button>
+                    </div>
+                </CardContent>
+            </Card>
+
+            <Card className="shadow-lg border-none bg-yellow-vibrant text-yellow-vibrant-foreground rounded-xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                    <CardTitle className="text-sm font-medium">⏳ Days Left in 2025</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="text-7xl font-extrabold">
+                        <AnimatedCounter value={daysLeft} />
+                    </div>
+                    <p className="text-xs text-yellow-vibrant-foreground/70 mt-4">Until December 31, 2025</p>
+                </CardContent>
+            </Card>
+        </div>
+        
+        <div className="mt-12 bg-card p-6 rounded-xl shadow-md">
+            <h2 className="text-2xl font-bold text-center mb-4">2025 Year Progress</h2>
+            <div className="max-w-3xl mx-auto">
+                <Progress value={yearProgress} className="h-4" />
+                <p className="text-center text-muted-foreground mt-2 font-medium">{yearProgress.toFixed(1)}% complete</p>
+            </div>
+        </div>
+      </div>
+    </main>
+  );
 }
