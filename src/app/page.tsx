@@ -99,7 +99,7 @@ export default function Home() {
     <main className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-8">
       <div className="max-w-7xl mx-auto">
         <header className="text-center mb-10">
-          <h1 className="text-5xl font-black tracking-tight font-headline">Progress Pulse</h1>
+          <h1 className="text-5xl font-black tracking-tight font-headline">3-4 DSA questions daily</h1>
           <p className="text-muted-foreground mt-2 text-lg">Track your progress, one day at a time.</p>
         </header>
 

@@ -3,7 +3,7 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
-  title: 'Progress Pulse',
+  title: '3-4 DSA questions daily',
   description: 'Track your progress, one day at a time.',
 };
 
