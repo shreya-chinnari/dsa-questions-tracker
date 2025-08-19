@@ -1,21 +1,31 @@
 "use client";
 
-import { useState, useMemo } from 'react';
-import usePersistentState from '@/hooks/usePersistentState';
+import { useMemo, Dispatch, SetStateAction } from 'react';
 import { cn } from "@/lib/utils";
 
-type DateLog = {
+export type DateLog = {
   [date: string]: number;
 };
 
-const CalendarLogger = () => {
-  const [dateLogs, setDateLogs] = usePersistentState<DateLog>('dateLogs', {});
+type CalendarLoggerProps = {
+  dateLogs: DateLog;
+  setDateLogs: Dispatch<SetStateAction<DateLog>>;
+};
+
+const CalendarLogger = ({ dateLogs, setDateLogs }: CalendarLoggerProps) => {
 
   const handleDateClick = (date: string) => {
     setDateLogs(prevLogs => {
       const currentCount = prevLogs[date] || 0;
       const newCount = (currentCount + 1) % 10;
-      return { ...prevLogs, [date]: newCount };
+      const newLogs = { ...prevLogs };
+
+      if (newCount === 0) {
+        delete newLogs[date];
+      } else {
+        newLogs[date] = newCount;
+      }
+      return newLogs;
     });
   };
 
@@ -54,9 +64,9 @@ const CalendarLogger = () => {
                 key={dateStr}
                 onClick={() => handleDateClick(dateStr)}
                 className={cn(
-                  "w-full aspect-square rounded-md flex items-center justify-center text-sm font-bold transition-colors",
+                  "w-full aspect-square rounded-md flex items-center justify-center text-xs sm:text-sm font-bold transition-colors",
                   "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
-                  count > 0 ? 'bg-primary/20 text-primary-foreground' : 'bg-secondary hover:bg-secondary/80',
+                  count === 0 && 'bg-secondary hover:bg-secondary/80 text-muted-foreground',
                   {
                     'bg-green-200 text-green-800': count === 1,
                     'bg-green-300 text-green-900': count === 2,

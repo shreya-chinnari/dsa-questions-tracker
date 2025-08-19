@@ -4,23 +4,16 @@ import { useState, useEffect } from 'react';
 import usePersistentState from '@/hooks/usePersistentState';
 import AnimatedCounter from '@/components/AnimatedCounter';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
-import { useToast } from "@/hooks/use-toast";
-import { Plus, Edit } from 'lucide-react';
-import CalendarLogger from '@/components/CalendarLogger';
+import CalendarLogger, { DateLog } from '@/components/CalendarLogger';
 
 export default function Home() {
-  const { toast } = useToast();
-  const [days, setDays] = usePersistentState('daysCounter', 0);
-  const [dsa, setDsa] = usePersistentState('dsaCounter', 0);
+  const [days, setDays] = useState(0);
+  const [dsa, setDsa] = useState(0);
+  const [dateLogs, setDateLogs] = usePersistentState<DateLog>('dateLogs', {});
 
   const [daysLeft, setDaysLeft] = useState(0);
   const [yearProgress, setYearProgress] = useState(0);
-  
-  const [manualDays, setManualDays] = useState<number | string>(days);
-  const [manualDsa, setManualDsa] = useState<number | string>(dsa);
 
   useEffect(() => {
     const calculateTimeValues = () => {
@@ -55,46 +48,14 @@ export default function Home() {
 
     return () => clearInterval(interval);
   }, []);
-
+  
   useEffect(() => {
-    setManualDays(days);
-  }, [days]);
+    const totalDsa = Object.values(dateLogs).reduce((sum, count) => sum + count, 0);
+    const totalDays = Object.keys(dateLogs).filter(key => dateLogs[key] > 0).length;
+    setDsa(totalDsa);
+    setDays(totalDays);
+  }, [dateLogs]);
 
-  useEffect(() => {
-    setManualDsa(dsa);
-  }, [dsa]);
-
-  const handleIncrementDays = () => {
-    setDays(prev => prev + 1);
-    toast({ title: "✅ Updated!" });
-  };
-
-  const handleIncrementDsa = () => {
-    setDsa(prev => prev + 1);
-    toast({ title: "✅ Updated!" });
-  };
-
-  const handleSetManualDays = () => {
-    const value = parseInt(String(manualDays), 10);
-    if (!isNaN(value) && value >= 0) {
-      setDays(value);
-      toast({ title: "✅ Days counter set." });
-    } else {
-      toast({ variant: "destructive", title: "Invalid input for days." });
-      setManualDays(days);
-    }
-  };
-
-  const handleSetManualDsa = () => {
-    const value = parseInt(String(manualDsa), 10);
-    if (!isNaN(value) && value >= 0) {
-      setDsa(value);
-      toast({ title: "✅ DSA counter set." });
-    } else {
-      toast({ variant: "destructive", title: "Invalid input for DSA." });
-      setManualDsa(dsa);
-    }
-  };
 
   return (
     <main className="min-h-screen bg-background text-foreground p-4 sm:p-6 md:p-8">
@@ -107,19 +68,13 @@ export default function Home() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             <Card className="shadow-lg border-none bg-coral text-coral-foreground rounded-xl overflow-hidden">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">📅 Days Counter</CardTitle>
+                    <CardTitle className="text-sm font-medium">📅 Days Logged</CardTitle>
                 </CardHeader>
                 <CardContent>
                     <div className="text-6xl font-extrabold">
                         <AnimatedCounter value={days} />
                     </div>
-                    <div className="flex gap-2 mt-3">
-                        <Button onClick={handleIncrementDays} size="sm" className="bg-white/20 hover:bg-white/30 text-white flex-1 font-semibold"><Plus className="mr-1 h-4 w-4"/> Day</Button>
-                    </div>
-                    <div className="flex gap-2 mt-2" onKeyDown={(e) => e.key === 'Enter' && handleSetManualDays()}>
-                        <Input type="number" value={manualDays} onChange={(e) => setManualDays(e.target.value)} className="bg-white/20 border-0 placeholder:text-white/60 text-white font-medium h-9" placeholder="Set..."/>
-                        <Button onClick={handleSetManualDays} size="icon" className="bg-white/20 hover:bg-white/30 text-white h-9 w-9"><Edit className="h-4 w-4"/></Button>
-                    </div>
+                    <p className="text-xs text-coral-foreground/70 mt-3">Total days with logged questions</p>
                 </CardContent>
             </Card>
 
@@ -131,13 +86,7 @@ export default function Home() {
                     <div className="text-6xl font-extrabold">
                         <AnimatedCounter value={dsa} />
                     </div>
-                     <div className="flex gap-2 mt-3">
-                        <Button onClick={handleIncrementDsa} size="sm" className="bg-white/20 hover:bg-white/30 text-white flex-1 font-semibold"><Plus className="mr-1 h-4 w-4"/> DSA</Button>
-                    </div>
-                    <div className="flex gap-2 mt-2" onKeyDown={(e) => e.key === 'Enter' && handleSetManualDsa()}>
-                        <Input type="number" value={manualDsa} onChange={(e) => setManualDsa(e.target.value)} className="bg-white/20 border-0 placeholder:text-white/60 text-white font-medium h-9" placeholder="Set..."/>
-                        <Button onClick={handleSetManualDsa} size="icon" className="bg-white/20 hover:bg-white/30 text-white h-9 w-9"><Edit className="h-4 w-4"/></Button>
-                    </div>
+                     <p className="text-xs text-teal-foreground/70 mt-3">Total questions solved from calendar</p>
                 </CardContent>
             </Card>
 
@@ -154,7 +103,7 @@ export default function Home() {
             </Card>
         </div>
 
-        <CalendarLogger />
+        <CalendarLogger dateLogs={dateLogs} setDateLogs={setDateLogs} />
         
         <div className="mt-12 bg-card p-6 rounded-xl shadow-md">
             <h2 className="text-2xl font-bold text-center mb-4">2025 Year Progress</h2>
