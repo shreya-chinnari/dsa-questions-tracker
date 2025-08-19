@@ -9,6 +9,7 @@ import { Input } from '@/components/ui/input';
 import { Progress } from '@/components/ui/progress';
 import { useToast } from "@/hooks/use-toast";
 import { Plus, Edit } from 'lucide-react';
+import CalendarLogger from '@/components/CalendarLogger';
 
 export default function Home() {
   const { toast } = useToast();
@@ -100,58 +101,60 @@ export default function Home() {
       <div className="max-w-7xl mx-auto">
         <header className="text-center mb-10">
           <h1 className="text-5xl font-black tracking-tight font-headline">3-4 DSA questions daily</h1>
-          <p className="text-muted-foreground mt-2 text-lg">Track your progress, one day at a time.</p>
+          <p className="text-muted-foreground mt-2 text-lg">imageine how good you'll be by the end of the year</p>
         </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-8">
-            <Card className="shadow-lg border-none bg-coral text-coral-foreground rounded-xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <Card className="shadow-lg border-none bg-coral text-coral-foreground rounded-xl overflow-hidden">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">📅 Days Counter</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="text-7xl font-extrabold">
+                    <div className="text-6xl font-extrabold">
                         <AnimatedCounter value={days} />
                     </div>
-                    <div className="flex gap-2 mt-4">
-                        <Button onClick={handleIncrementDays} className="bg-white/20 hover:bg-white/30 text-white flex-1 font-semibold"><Plus className="mr-2 h-4 w-4"/> Inc Day</Button>
+                    <div className="flex gap-2 mt-3">
+                        <Button onClick={handleIncrementDays} size="sm" className="bg-white/20 hover:bg-white/30 text-white flex-1 font-semibold"><Plus className="mr-1 h-4 w-4"/> Day</Button>
                     </div>
                     <div className="flex gap-2 mt-2" onKeyDown={(e) => e.key === 'Enter' && handleSetManualDays()}>
-                        <Input type="number" value={manualDays} onChange={(e) => setManualDays(e.target.value)} className="bg-white/20 border-0 placeholder:text-white/60 text-white font-medium" placeholder="Set value..."/>
-                        <Button onClick={handleSetManualDays} size="icon" className="bg-white/20 hover:bg-white/30 text-white"><Edit className="h-4 w-4"/></Button>
+                        <Input type="number" value={manualDays} onChange={(e) => setManualDays(e.target.value)} className="bg-white/20 border-0 placeholder:text-white/60 text-white font-medium h-9" placeholder="Set..."/>
+                        <Button onClick={handleSetManualDays} size="icon" className="bg-white/20 hover:bg-white/30 text-white h-9 w-9"><Edit className="h-4 w-4"/></Button>
                     </div>
                 </CardContent>
             </Card>
 
-            <Card className="shadow-lg border-none bg-teal text-teal-foreground rounded-xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
+            <Card className="shadow-lg border-none bg-teal text-teal-foreground rounded-xl overflow-hidden">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">📘 DSA Questions Solved</CardTitle>
+                    <CardTitle className="text-sm font-medium">📘 DSA Solved</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="text-7xl font-extrabold">
+                    <div className="text-6xl font-extrabold">
                         <AnimatedCounter value={dsa} />
                     </div>
-                     <div className="flex gap-2 mt-4">
-                        <Button onClick={handleIncrementDsa} className="bg-white/20 hover:bg-white/30 text-white flex-1 font-semibold"><Plus className="mr-2 h-4 w-4"/> Inc DSA</Button>
+                     <div className="flex gap-2 mt-3">
+                        <Button onClick={handleIncrementDsa} size="sm" className="bg-white/20 hover:bg-white/30 text-white flex-1 font-semibold"><Plus className="mr-1 h-4 w-4"/> DSA</Button>
                     </div>
                     <div className="flex gap-2 mt-2" onKeyDown={(e) => e.key === 'Enter' && handleSetManualDsa()}>
-                        <Input type="number" value={manualDsa} onChange={(e) => setManualDsa(e.target.value)} className="bg-white/20 border-0 placeholder:text-white/60 text-white font-medium" placeholder="Set value..."/>
-                        <Button onClick={handleSetManualDsa} size="icon" className="bg-white/20 hover:bg-white/30 text-white"><Edit className="h-4 w-4"/></Button>
+                        <Input type="number" value={manualDsa} onChange={(e) => setManualDsa(e.target.value)} className="bg-white/20 border-0 placeholder:text-white/60 text-white font-medium h-9" placeholder="Set..."/>
+                        <Button onClick={handleSetManualDsa} size="icon" className="bg-white/20 hover:bg-white/30 text-white h-9 w-9"><Edit className="h-4 w-4"/></Button>
                     </div>
                 </CardContent>
             </Card>
 
-            <Card className="shadow-lg border-none bg-yellow-vibrant text-yellow-vibrant-foreground rounded-xl overflow-hidden transform hover:scale-105 transition-transform duration-300">
+            <Card className="shadow-lg border-none bg-yellow-vibrant text-yellow-vibrant-foreground rounded-xl overflow-hidden">
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">⏳ Days Left in 2025</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    <div className="text-7xl font-extrabold">
+                    <div className="text-6xl font-extrabold">
                         <AnimatedCounter value={daysLeft} />
                     </div>
-                    <p className="text-xs text-yellow-vibrant-foreground/70 mt-4">Until December 31, 2025</p>
+                    <p className="text-xs text-yellow-vibrant-foreground/70 mt-3">Until December 31, 2025</p>
                 </CardContent>
             </Card>
         </div>
+
+        <CalendarLogger />
         
         <div className="mt-12 bg-card p-6 rounded-xl shadow-md">
             <h2 className="text-2xl font-bold text-center mb-4">2025 Year Progress</h2>

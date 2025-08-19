@@ -4,7 +4,7 @@ import { Toaster } from "@/components/ui/toaster";
 
 export const metadata: Metadata = {
   title: '3-4 DSA questions daily',
-  description: 'Track your progress, one day at a time.',
+  description: "imagine how good you'll be by the end of the year",
 };
 
 export default function RootLayout({
