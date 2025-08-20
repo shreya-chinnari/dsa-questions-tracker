@@ -65,8 +65,11 @@ export default function Home() {
 
 
   return (
-    <main className="min-h-screen bg-background text-foreground p-4">
-      <div className="max-w-7xl mx-auto">
+    <main 
+      className="min-h-screen bg-background text-foreground p-4 bg-cover bg-center"
+      style={{backgroundImage: "url('https://www.transparenttextures.com/patterns/cubes.png')"}}
+    >
+      <div className="max-w-7xl mx-auto bg-background/80 backdrop-blur-sm p-6 rounded-2xl shadow-2xl">
         <header className="text-center mb-6 relative">
           <h1 className="text-4xl font-black tracking-tight font-headline">3-4 DSA questions daily</h1>
           <p className="text-muted-foreground mt-2 text-md">imagine how good you'll be by the end of the year</p>
