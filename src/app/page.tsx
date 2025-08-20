@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import CalendarLogger, { DateLog } from '@/components/CalendarLogger';
 import NoteCard from '@/components/NoteCard';
+import { ThemeToggle } from '@/components/ThemeToggle';
 
 export default function Home() {
   const [days, setDays] = useState(0);
@@ -66,9 +67,12 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background text-foreground p-4">
       <div className="max-w-7xl mx-auto">
-        <header className="text-center mb-6">
+        <header className="text-center mb-6 relative">
           <h1 className="text-4xl font-black tracking-tight font-headline">3-4 DSA questions daily</h1>
           <p className="text-muted-foreground mt-2 text-md">imagine how good you'll be by the end of the year</p>
+          <div className="absolute top-0 right-0">
+            <ThemeToggle />
+          </div>
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
