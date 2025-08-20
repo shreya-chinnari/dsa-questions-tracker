@@ -72,11 +72,11 @@ const CalendarLogger = ({ dateLogs, setDateLogs }: CalendarLoggerProps) => {
                     'bg-green-300 text-green-900': count === 2,
                     'bg-green-400 text-green-900': count === 3,
                     'bg-green-500 text-white': count === 4,
-                    'bg-yellow-400 text-yellow-900': count === 5,
-                    'bg-orange-400 text-white': count === 6,
-                    'bg-red-500 text-white': count === 7,
-                    'bg-pink-500 text-white': count === 8,
-                    'bg-purple-500 text-white': count === 9,
+                    'bg-purple-500 text-white': count === 5,
+                    'bg-pink-500 text-white': count === 6,
+                    'bg-blue-500 text-white': count === 7,
+                    'bg-red-500 text-white': count === 8,
+                    'bg-yellow-400 text-yellow-900': count === 9,
                   }
                 )}
               >
