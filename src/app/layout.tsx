@@ -2,6 +2,7 @@ import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { Analytics } from "@vercel/analytics/react"
 
 export const metadata: Metadata = {
   title: '3-4 DSA questions daily',
@@ -29,6 +30,7 @@ export default function RootLayout({
         >
           {children}
           <Toaster />
+          <Analytics />
         </ThemeProvider>
       </body>
     </html>
