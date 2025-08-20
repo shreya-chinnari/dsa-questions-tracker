@@ -6,11 +6,13 @@ import AnimatedCounter from '@/components/AnimatedCounter';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import CalendarLogger, { DateLog } from '@/components/CalendarLogger';
+import NoteCard from '@/components/NoteCard';
 
 export default function Home() {
   const [days, setDays] = useState(0);
   const [dsa, setDsa] = useState(0);
   const [dateLogs, setDateLogs] = usePersistentState<DateLog>('dateLogs', {});
+  const [notes, setNotes] = usePersistentState<{[date: string]: string}>('notes', {});
 
   const [daysLeft, setDaysLeft] = useState(0);
   const [yearProgress, setYearProgress] = useState(0);
@@ -55,6 +57,10 @@ export default function Home() {
     setDsa(totalDsa);
     setDays(totalDays);
   }, [dateLogs]);
+
+  const sortedNoteDates = Object.keys(dateLogs)
+    .filter(date => dateLogs[date] > 0)
+    .sort((a, b) => new Date(b).getTime() - new Date(a).getTime());
 
 
   return (
@@ -111,6 +117,24 @@ export default function Home() {
                 <Progress value={yearProgress} className="h-3" />
                 <p className="text-center text-muted-foreground mt-2 text-sm font-medium">{yearProgress.toFixed(1)}% complete</p>
             </div>
+        </div>
+
+        <div className="mt-8">
+            <h2 className="text-xl font-bold text-center mb-4">Daily Notes</h2>
+            {sortedNoteDates.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {sortedNoteDates.map(date => (
+                        <NoteCard 
+                            key={date}
+                            date={date}
+                            notes={notes}
+                            setNotes={setNotes}
+                        />
+                    ))}
+                </div>
+            ) : (
+                <p className="text-center text-muted-foreground">Log a question in the calendar to start taking notes.</p>
+            )}
         </div>
       </div>
     </main>
